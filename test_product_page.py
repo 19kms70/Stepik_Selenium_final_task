@@ -1,4 +1,8 @@
-﻿import pytest
+﻿import time
+
+import pytest
+
+from .pages.locators import ProductPageLocators
 from .pages.main_page import MainPage
 from .pages.product_page import ProductPage
 
@@ -33,3 +37,30 @@ def test_guest_can_add_product_to_basket(browser, link):
     assert product_name == product_name_approved, f"Product name in basket:{product_name_approved} but you select:{product_name}"
     assert product_price == product_price_approved, f"Price in basket:{product_price_approved} but you select:{product_price}"
     product_page.check_product_hase_been_added_to_bascek()
+
+
+#tested_links=["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"]
+
+def open_product_page(browser, link):
+    print(f"Testing link={link}")
+    page = MainPage(browser,
+                    link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
+    page.open()  # открываем страницу
+    return ProductPage(browser, browser.current_url)
+
+@pytest.mark.parametrize("link", tested_links)
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, link):
+    product_page = open_product_page(browser, link)
+    product_page.add_product_to_basket()
+    assert product_page.is_not_element_present(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), "If test not passed - it is ok"
+
+@pytest.mark.parametrize("link", tested_links)
+def test_guest_cant_see_success_message(browser, link):
+    product_page = open_product_page(browser, link)
+    assert product_page.is_not_element_present(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), "If test not passed - it is ok"
+
+@pytest.mark.parametrize("link", tested_links)
+def test_message_disappeared_after_adding_product_to_basket(browser, link):
+    product_page = open_product_page(browser, link)
+    product_page.add_product_to_basket()
+    assert product_page.is_disappeared(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), "If test not passed - it is ok"
