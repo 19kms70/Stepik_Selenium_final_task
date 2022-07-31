@@ -49,4 +49,6 @@ class ProductPage(BasePage):
         assert "has been added to your basket." in message , f"{message=} != 'has been added to your basket.'"
 
 
-
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), \
+            "Message about product has been added to your basket is presented, but should not be"

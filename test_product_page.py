@@ -4,9 +4,9 @@ from .pages.product_page import ProductPage
 
 LINK = "https://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
 LINK = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
-LINK = " http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+LINK = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
-list_of_failed_num = []
+list_of_failed_num = [7]
 tested_links = [f"{LINK}?promo=offer{i}" if i not in list_of_failed_num else
                 pytest.param(f"{LINK}?promo=offer{i}",
                              marks=pytest.mark.xfail(reason="some bug", strict=True)
@@ -19,8 +19,9 @@ def test_guest_can_add_product_to_basket(browser, link):
     page = MainPage(browser, link)  # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
     page.open()  # открываем страницу
     product_page = ProductPage(browser, browser.current_url)
-    # product_page.should_be_product_url()
+    product_page.should_be_product_url()
     product_page.should_be_btn_add_to_basket()
+    #product_page.should_not_be_success_message()
     product_name = product_page.get_product_name()
     product_price = product_page.get_product_price()
     print(f"{product_price=}  {product_name=}")
