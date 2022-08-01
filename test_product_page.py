@@ -3,8 +3,9 @@
 import pytest
 
 from .pages.locators import ProductPageLocators
-from .pages.main_page import MainPage
+from .pages.main_page import *
 from .pages.product_page import ProductPage
+from .pages.busket_page import *
 
 LINK = "https://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
 LINK = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
@@ -64,3 +65,17 @@ def test_message_disappeared_after_adding_product_to_basket(browser, link):
     product_page = open_product_page(browser, link)
     product_page.add_product_to_basket()
     assert product_page.is_disappeared(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), "If test not passed - it is ok"
+
+tested_links = [f"{LINK}?promo=offer{i}" if i not in list_of_failed_num else
+                pytest.param(f"{LINK}?promo=offer{i}",
+                             marks=pytest.mark.xfail(reason="some bug", strict=True)
+                             )
+                for i in range(1)]
+
+@pytest.mark.parametrize("link", tested_links)
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser, link):
+    product_page=open_page(browser, link)
+    product_page.click_to_view_basket()
+    basket_page = BusketPage(product_page.browser, product_page.browser.current_url)
+    basket_page.do_not_see_message_item_to_by_now(BASKET_ITEMS_TO_BY_NOW)
+    basket_page.see_message_basket_is_empty(BASKET_EMPTY_MESSAGE)

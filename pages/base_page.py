@@ -4,10 +4,14 @@ from selenium.common.exceptions import NoSuchElementException, NoAlertPresentExc
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from .locators import MainPageLocators
 
 
 
 class BasePage():
+    """
+     The class BasePage describes the main methods for working on all pages
+    """
     def __init__(self, browser, url):
         self.browser = browser
         self.url = url
@@ -22,8 +26,24 @@ class BasePage():
         except (NoSuchElementException):
             return False
         return True
-    def get_element_text(self, how, what):
+    def get_element_attribute_text(self, how, what):
         return self.browser.find_element(how, what).text
+
+    # def mask_in_element_attribute_text(self, (how, what), mask):
+    #     return True if mask in self.browser.find_element(how, what).text else False
+
+    def wait_for_mask_in_element_attribute_text(self, how_what, mask, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what,mask))
+        except TimeoutException:
+            return False
+        return True
+    def wait_for_mask_not_in_element_attribute_text(self, how_what, mask, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what,mask))
+        except TimeoutException:
+            return True
+        return False
 
     def is_element_click(self, how, what):
         try:
@@ -66,6 +86,7 @@ class BasePage():
 
         return True
 
-    # def should_not_be_success_message(self):
-    #     assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
-    #         "Success message is presented, but should not be"
+    def click_to_view_basket(self):
+        assert self.is_element_present(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not presented"
+        assert self.is_element_click(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not clicked"
+
