@@ -1,10 +1,11 @@
 ﻿import math
+import time
 
 from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from .locators import MainPageLocators
+from .locators import MainPageLocators,BasePageLocators
 
 
 
@@ -77,6 +78,13 @@ class BasePage():
             return True
         return False
 
+    def wait_is_element_present(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+        return True
+
     def is_disappeared(self, how, what, timeout=4):
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException). \
@@ -87,6 +95,16 @@ class BasePage():
         return True
 
     def click_to_view_basket(self):
-        assert self.is_element_present(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not presented"
+        assert self.wait_is_element_present(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not presented"
         assert self.is_element_click(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not clicked"
+
+    def set_text_for_element(self, how, what, text):
+        print (f"{how=}, {what=}, {text=}")
+        element = self.browser.find_element(how, what)
+        element.send_keys(text)
+        return
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
 

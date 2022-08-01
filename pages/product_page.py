@@ -16,7 +16,7 @@ class ProductPage(BasePage):
 
     def should_be_btn_add_to_basket(self):
         # реализуйте проверку, что есть форма логина
-        assert self.is_element_present(*ProductPageLocators.BTN_ADD_TO_BASKET), "BTN_ADD_TO_BASKET is not presented"
+        assert self.wait_is_element_present(*ProductPageLocators.BTN_ADD_TO_BASKET), "BTN_ADD_TO_BASKET is not presented"
 
     def should_be_btn_add_to_basket_clicked(self):
         # реализуйте проверку, что есть форма логина
