@@ -6,6 +6,23 @@ class ProductPage(BasePage):
     """
      The class ProductPage describes the main methods for working on product pages
     """
+
+    def add_product_to_basket_and_calculate(self):
+        self.should_be_product_url()
+        self.should_be_btn_add_to_basket()
+        self.should_not_be_success_message()
+        product_name = self.get_product_name()
+        product_price = self.get_product_price()
+        print(f"{product_price=}  {product_name=}")
+        self.should_be_btn_add_to_basket_clicked()
+        self.solve_quiz_and_get_code()
+        product_name_approved = self.get_product_name_approved()
+        product_price_approved = self.get_product_price_approced()
+        print(f"{product_price_approved=}  {product_name_approved=}")
+        assert product_name == product_name_approved, f"Product name in basket:{product_name_approved} but you select:{product_name}"
+        assert product_price == product_price_approved, f"Price in basket:{product_price_approved} but you select:{product_price}"
+        self.check_product_hase_been_added_to_bascek()
+
     def should_be_product_url(self):
         # check_str = '?promo=newYea'
         check_str = 'catalogue'
@@ -50,6 +67,7 @@ class ProductPage(BasePage):
         assert self.is_not_element_present(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), \
             "Message about product has been added to your basket is presented, but should not be"
 
+
     def add_product_to_basket(self):
         self.should_be_product_url()
         self.should_be_btn_add_to_basket()
@@ -65,3 +83,4 @@ class ProductPage(BasePage):
         assert product_name == product_name_approved, f"Product name in basket:{product_name_approved} but you select:{product_name}"
         assert product_price == product_price_approved, f"Price in basket:{product_price_approved} but you select:{product_price}"
         self.check_product_hase_been_added_to_bascek()
+

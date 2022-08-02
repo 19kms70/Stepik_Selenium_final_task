@@ -28,10 +28,14 @@ class ProductPageLocators():
     PRODUCT_HASE_BEEN_ADDED_TO_BASKET = (By.CSS_SELECTOR, "#messages div div")
 
 
-class BusketPageLocators():
+class BasketPageLocators():
     BASKET_CONTENT = (By.XPATH, "//*[@id='content_inner']/p")
     ITEMS_TO_BY_NOW = (By.XPATH, "//*[@id='content_inner']/div[1]/div/h2")
 
 class BasePageLocators():
     USER_ICON = (By.CSS_SELECTOR, ".icon-user")
-
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    MAIN_LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    MAIN_LOGOUT_LINK = (By.CSS_SELECTOR, "#logout_link")
+    MAIN_OPEN_BASKET = (By.XPATH, "//a[@class='btn btn-default']")

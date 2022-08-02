@@ -1,7 +1,7 @@
 ﻿import time
 import pytest
 
-from .pages.busket_page import *
+from .pages.basket_page import *
 from .pages.main_page import *
 from .pages.login_page import LoginPage
 
@@ -29,8 +29,9 @@ class TestLoginFromMainPage():
 
 def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
     link=LINK
-    main_page=open_page(browser, link)
-    main_page.click_to_view_basket()
-    basket_page = BusketPage(main_page.browser, main_page.browser.current_url)
+    page =MainPage(browser, link)
+    page.open()
+    page.click_to_view_basket()
+    basket_page = BasketPage(browser, browser.current_url)
     basket_page.do_not_see_message_item_to_by_now(BASKET_ITEMS_TO_BY_NOW)
     basket_page.see_message_basket_is_empty(BASKET_EMPTY_MESSAGE)
