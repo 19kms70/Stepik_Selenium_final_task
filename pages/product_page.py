@@ -24,19 +24,16 @@ class ProductPage(BasePage):
         self.check_product_hase_been_added_to_bascek()
 
     def should_be_product_url(self):
-        # check_str = '?promo=newYea'
         check_str = 'catalogue'
         assert self.is_text_present_in_url(
             check_str), F"driver.current_url={self.browser.current_url} not contain 'product' "
-        # реализуйте проверку на корректный url адрес
         assert True
 
     def should_be_btn_add_to_basket(self):
-        # реализуйте проверку, что есть форма логина
-        assert self.wait_is_element_present(*ProductPageLocators.BTN_ADD_TO_BASKET), "BTN_ADD_TO_BASKET is not presented"
+        assert self.wait_is_element_present(
+            *ProductPageLocators.BTN_ADD_TO_BASKET), "BTN_ADD_TO_BASKET is not presented"
 
     def should_be_btn_add_to_basket_clicked(self):
-        # реализуйте проверку, что есть форма логина
         assert self.is_element_click(*ProductPageLocators.BTN_ADD_TO_BASKET), "BTN_ADD_TO_BASKET is not clicked"
 
     def get_product_name(self):
@@ -67,7 +64,6 @@ class ProductPage(BasePage):
         assert self.is_not_element_present(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), \
             "Message about product has been added to your basket is presented, but should not be"
 
-
     def add_product_to_basket(self):
         self.should_be_product_url()
         self.should_be_btn_add_to_basket()
@@ -84,3 +80,5 @@ class ProductPage(BasePage):
         assert product_price == product_price_approved, f"Price in basket:{product_price_approved} but you select:{product_price}"
         self.check_product_hase_been_added_to_bascek()
 
+    def is_disappered_message_about_adding_in_basket(self):
+        assert self.is_disappeared(*ProductPageLocators.PRODUCT_HASE_BEEN_ADDED_TO_BASKET), "Wrong show success message"

@@ -1,18 +1,17 @@
 ﻿import math
-import time
 
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from .locators import MainPageLocators,BasePageLocators
-# from .login_page import LoginPage
+from .locators import MainPageLocators, BasePageLocators
 
 
 class BasePage():
     """
      The class BasePage describes the main methods for working on all pages
     """
+
     def __init__(self, browser, url):
         self.browser = browser
         self.url = url
@@ -21,28 +20,26 @@ class BasePage():
     def open(self):
         self.browser.get(self.url)
 
-
     def is_element_present(self, how, what):
         try:
             self.browser.find_element(how, what)
         except (NoSuchElementException):
             return False
         return True
+
     def get_element_attribute_text(self, how, what):
         return self.browser.find_element(how, what).text
 
-    # def mask_in_element_attribute_text(self, (how, what), mask):
-    #     return True if mask in self.browser.find_element(how, what).text else False
-
     def wait_for_mask_in_element_attribute_text(self, how_what, mask, timeout=4):
         try:
-            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what,mask))
+            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what, mask))
         except TimeoutException:
             return False
         return True
+
     def wait_for_mask_not_in_element_attribute_text(self, how_what, mask, timeout=4):
         try:
-            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what,mask))
+            WebDriverWait(self.browser, timeout).until(EC.text_to_be_present_in_element(how_what, mask))
         except TimeoutException:
             return True
         return False
@@ -68,7 +65,6 @@ class BasePage():
             alert_text = alert.text
             print(f"Your code: {alert_text}")
             alert.accept()
-        # except NoAlertPresentException:
         except:
             print("No second alert presented")
 
@@ -100,7 +96,7 @@ class BasePage():
         assert self.is_element_click(*MainPageLocators.MAIN_OPEN_BASKET), "Basket link is not clicked"
 
     def set_text_for_element(self, how, what, text):
-        print (f"{how=}, {what=}, {text=}")
+        print(f"{how=}, {what=}, {text=}")
         element = self.browser.find_element(how, what)
         element.send_keys(text)
         return
@@ -112,8 +108,6 @@ class BasePage():
     def go_to_login_page(self):
         login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
-        #return (self.browser, self.browser.current_url)
 
     def should_be_login_link(self):
         assert self.wait_is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
-

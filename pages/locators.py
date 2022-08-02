@@ -18,7 +18,6 @@ class LoginPageLocators():
     REGISTER_ERROR_BLOK = (By.CLASS_NAME, "error-block")
 
 
-
 class ProductPageLocators():
     BTN_ADD_TO_BASKET = (By.CSS_SELECTOR, "[class='btn btn-lg btn-primary btn-add-to-basket']")
     PRODUCT_NAME = (By.CSS_SELECTOR, ".product_page  h1")
@@ -31,6 +30,7 @@ class ProductPageLocators():
 class BasketPageLocators():
     BASKET_CONTENT = (By.XPATH, "//*[@id='content_inner']/p")
     ITEMS_TO_BY_NOW = (By.XPATH, "//*[@id='content_inner']/div[1]/div/h2")
+
 
 class BasePageLocators():
     USER_ICON = (By.CSS_SELECTOR, ".icon-user")
