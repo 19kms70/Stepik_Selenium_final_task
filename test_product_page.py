@@ -70,7 +70,8 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.open()
     page.add_product_to_basket_and_calculate()
 
-@pytest.mark.xfail(strict = True)
+
+@pytest.mark.xfail(strict=True)
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -84,7 +85,8 @@ def test_guest_cant_see_success_message(browser):
     page.open()
     page.should_not_be_success_message()
 
-@pytest.mark.xfail(strict = True)
+
+@pytest.mark.xfail(strict=True)
 def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
