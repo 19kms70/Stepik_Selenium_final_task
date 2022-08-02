@@ -1,3 +1,5 @@
+import time
+
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
@@ -42,11 +44,13 @@ class ProductPage(BasePage):
         return name
 
     def get_product_name_approved(self):
+        self.wait_is_element_present(*ProductPageLocators.PRODUCT_NAME_APPROVED)
         name = self.get_element_attribute_text(*ProductPageLocators.PRODUCT_NAME_APPROVED)
         assert len(name) > 0, "product name is not presented"
         return name
 
     def get_product_price(self):
+        self.wait_is_element_present(*ProductPageLocators.PRODUCT_PRICE)
         name = self.get_element_attribute_text(*ProductPageLocators.PRODUCT_PRICE)
         assert len(name) > 0, "product name is not presented"
         return name

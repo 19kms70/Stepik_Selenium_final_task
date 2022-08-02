@@ -6,9 +6,9 @@ from .locators import LoginPageLocators, MainPageLocators
 
 class LoginPage(BasePage):
 
-    def setup(self):
-        self.register_email = f"UserNameN{str(time.time())[-4:]}@fakemail.org"
-        self.register_email = f"UserNameN@fakemail.org"
+    def run_register_or_login(self):
+        self.register_email = f"UserName_{str(time.time())[-4:]}@fakemail.org"
+        # self.register_email = f"UserNameN@fakemail.org"
         self.register_password = "1234Qwerty!"
         self.should_be_login_url()
         self.should_be_LOGIN_FORM_BUTTON()

@@ -20,7 +20,7 @@ class TestUserAddToBasketFromProductPage:
         page.should_be_login_link()
         page.go_to_login_page()
         login_page = LoginPage(browser, browser.current_url)
-        login_page.setup()
+        login_page.run_register_or_login()
         yield
         login_page.go_to_logout()
 
@@ -59,7 +59,7 @@ tested_links = [f"{LINK}?promo=offer{i}" if i not in list_of_failed_num else
                 pytest.param(f"{LINK}?promo=offer{i}",
                              marks=pytest.mark.xfail(reason="some bug", strict=True)
                              )
-                for i in range(1)]
+                for i in range(10)]
 
 
 @pytest.mark.need_review
@@ -70,7 +70,7 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.open()
     page.add_product_to_basket_and_calculate()
 
-
+@pytest.mark.xfail(strict = True)
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -84,7 +84,7 @@ def test_guest_cant_see_success_message(browser):
     page.open()
     page.should_not_be_success_message()
 
-
+@pytest.mark.xfail(strict = True)
 def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
