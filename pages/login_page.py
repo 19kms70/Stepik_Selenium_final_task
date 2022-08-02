@@ -8,6 +8,7 @@ class LoginPage(BasePage):
 
     def setup(self):
         self.register_email = f"UserNameN{str(time.time())[-4:]}@fakemail.org"
+        self.register_email = f"UserNameN@fakemail.org"
         self.register_password = "1234Qwerty!"
         self.should_be_login_url()
         self.should_be_LOGIN_FORM_BUTTON()
@@ -57,7 +58,7 @@ class LoginPage(BasePage):
         if error:
             if self.wait_for_mask_in_element_attribute_text(LoginPageLocators.REGISTER_ERROR_BLOK,
                                                             "A user with that email address already exists"):
-                self.login_exist_user(self, email, password)
+                self.login_exist_user(email, password)
 
     def login_exist_user(self, email, password):
         assert self.wait_is_element_present(
